@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-
 import { createPortal } from "react-dom";
-
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import {
   EffectCoverflow,
   Pagination,
@@ -12,154 +9,104 @@ import {
 } from "swiper/modules";
 
 import "swiper/css";
-
 import "swiper/css/effect-coverflow";
-
 import "swiper/css/pagination";
-
 import "swiper/css/navigation";
 
 const perfumeSets = [
   {
     id: 1,
-
     name: "Royal Signature",
-
     tagline: "Fresh • Woody • Clean",
-
     frontImg: "/set1-box.jpg",
-
     backImg: "/set1-notes.jpg",
-
     openBoxImg: "/open-box.jpg",
-
     desc: "A versatile luxury collection for everyday wear and special occasions.",
-
+    amazonLink:
+      "https://www.amazon.in/gp/product/B0HPNWCSGX/ref=cx_skuctr_share_ls_srb?smid=A6TD6AL2B4H4R&tag=ShopReferral_26e4a7e8-34d7-4079-8e89-1d0633af50a6",
     items: [
       { name: "Jawahra", detail: "Fresh citrus & woody" },
-
       { name: "Greatness", detail: "Rich oud & spicy luxury" },
-
       { name: "White Musk", detail: "Clean, soft musk" },
     ],
   },
-
   {
     id: 2,
-
     name: "Oceanic Luxury",
-
     tagline: "Aquatic • Fresh • Musky",
-
     frontImg: "/set2-box.jpg",
-
     backImg: "/set2-notes.jpg",
-
     openBoxImg: "/open-box.jpg",
-
     desc: "For customers who love fresh, modern and attention-grabbing fragrances.",
-
+    amazonLink:
+      "https://www.amazon.in/gp/product/B0HPQVF1TP/ref=cx_skuctr_share_ls_srb?smid=A6TD6AL2B4H4R&tag=ShopReferral_0f63b63c-022b-4019-969f-d8008dbffc6a",
     items: [
       { name: "Bahr", detail: "Bold aquatic character" },
-
       { name: "Jazeera", detail: "Deep, distinctive fragrance" },
-
       { name: "White Musk", detail: "Smooth, clean finish" },
     ],
   },
-
   {
     id: 3,
-
     name: "Midnight Oud",
-
     tagline: "Dark • Floral • Intense",
-
     frontImg: "/set3-box.jpg",
-
     backImg: "/set3-notes.jpg",
-
     openBoxImg: "/open-box.jpg",
-
     desc: "A rich, premium set for evening wear and customers who prefer intense fragrances.",
-
+    amazonLink:
+      "https://www.amazon.in/gp/product/B0HPWBY9CT/ref=cx_skuctr_share_ls_srb?smid=A6TD6AL2B4H4R&tag=ShopReferral_6e9c37a8-99c6-4882-80e6-9a3a409cc776",
     items: [
       { name: "Greatness", detail: "Powerful oud character" },
-
       { name: "Rose Noir", detail: "Oud & roses" },
-
       { name: "Jazeera", detail: "Deep, bold character" },
     ],
   },
-
   {
     id: 4,
-
     name: "Bloom & Elegance",
-
     tagline: "Floral • Sweet • Sophisticated",
-
     frontImg: "/set4-box.jpg",
-
     backImg: "/set4-notes.jpg",
-
     openBoxImg: "/open-box.jpg",
-
     desc: "A beautiful mix of floral freshness and rich elegance, ideal for customers who enjoy sophisticated scents.",
-
+    amazonLink:
+      "https://www.amazon.in/gp/product/B0HQ5LG1JR/ref=cx_skuctr_share_ls_srb?smid=A6TD6AL2B4H4R&tag=ShopReferral_0b455cd4-ca17-4706-ae87-c41c19ef0781",
     items: [
       { name: "Sabha Al Ward", detail: "Sweet vanilla & white florals" },
-
       { name: "Rose Noir", detail: "Rose & oud richness" },
-
       { name: "Jawahra", detail: "Fresh citrus & jasmine" },
     ],
   },
-
   {
     id: 5,
-
     name: "Arabian Gold",
-
     tagline: "Warm • Rich • Royal",
-
     frontImg: "/set5-box.jpg",
-
     backImg: "/set5-notes.jpg",
-
     openBoxImg: "/open-box.jpg",
-
     desc: "A rich Arabian-inspired combination with bold oud character and floral elegance.",
-
+    amazonLink:
+      "https://www.amazon.in/gp/product/B0HQ5JJK3L/ref=cx_skuctr_share_ls_srb?smid=A6TD6AL2B4H4R&tag=ShopReferral_1b462ace-e625-44e7-bb36-434937a94d03",
     items: [
       { name: "Jazeera", detail: "Deep, distinctive fragrance" },
-
       { name: "Greatness", detail: "Rich oud & spicy luxury" },
-
       { name: "Sabha Al Ward", detail: "Sweet vanilla & white florals" },
     ],
   },
-
   {
     id: 6,
-
     name: "Pure Elegance",
-
     tagline: "Clean • Floral • Fresh",
-
     frontImg: "/set6-box.jpg",
-
     backImg: "/set6-notes.jpg",
-
     openBoxImg: "/open-box.jpg",
-
     desc: "A balanced combination of clean musk, aquatic freshness and rose-oud sophistication.",
-
+    amazonLink:
+      "https://www.amazon.in/gp/product/B0HQ5F8NTT/ref=cx_skuctr_share_ls_srb?smid=A6TD6AL2B4H4R&tag=ShopReferral_41742125-2a3c-4483-9a95-4b967f7cb3fe",
     items: [
       { name: "White Musk", detail: "Clean, soft musk" },
-
       { name: "Bahr", detail: "Bold aquatic character" },
-
       { name: "Rose Noir", detail: "Oud & roses" },
     ],
   },
@@ -167,19 +114,13 @@ const perfumeSets = [
 
 const ProductCard = ({
   set,
-
   theme,
-
   openQuickView,
-
   addToCart,
-
   toggleWishlist,
-
   wishlistItems,
 }) => {
   const [showNotes, setShowNotes] = useState(false);
-
   const isWishlisted = wishlistItems.some((item) => item.id === set.id);
 
   const waMessage = encodeURIComponent(
@@ -215,7 +156,6 @@ const ProductCard = ({
         <button
           onClick={(e) => {
             e.stopPropagation();
-
             toggleWishlist(set);
           }}
           className={`absolute top-4 right-4 z-30 w-10 h-10 flex items-center justify-center rounded-full backdrop-blur-md shadow-lg transition-transform hover:scale-110 ${theme === "dark" ? "bg-black/50 text-white" : "bg-white/80 text-black"}`}
@@ -230,7 +170,6 @@ const ProductCard = ({
         <button
           onClick={(e) => {
             e.stopPropagation();
-
             openQuickView(set);
           }}
           className={`absolute top-16 right-4 z-30 w-10 h-10 flex items-center justify-center rounded-full backdrop-blur-md shadow-lg transition-transform hover:scale-110 group/eye ${theme === "dark" ? "bg-black/50 text-white hover:text-yellow-500" : "bg-white/80 text-black hover:text-yellow-600"}`}
@@ -291,7 +230,7 @@ const ProductCard = ({
             </a>
 
             <a
-              href="https://www.amazon.in/gp/product/B0HPNWCSGX/ref=cx_skuctr_share_ls_srb?smid=A6TD6AL2B4H4R&tag=ShopReferral_26e4a7e8-34d7-4079-8e89-1d0633af50a6"
+              href={set.amazonLink}
               target="_blank"
               rel="noreferrer"
               className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-wide border transition-all ${theme === "dark" ? "bg-[#FF9900]/10 border-[#FF9900]/30 text-[#FF9900] hover:bg-[#FF9900] hover:text-white" : "border-[#FF9900] text-[#FF9900] hover:bg-[#FF9900] hover:text-white"}`}
@@ -307,9 +246,7 @@ const ProductCard = ({
 
 const Products = ({ theme, addToCart, toggleWishlist, wishlistItems }) => {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
-
   const [modalImgMode, setModalImgMode] = useState("front");
-
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -318,7 +255,6 @@ const Products = ({ theme, addToCart, toggleWishlist, wishlistItems }) => {
 
   const openQuickView = (set) => {
     setQuickViewProduct(set);
-
     setModalImgMode("front");
   };
 
@@ -331,15 +267,10 @@ const Products = ({ theme, addToCart, toggleWishlist, wishlistItems }) => {
     >
       <style>
         {`
-
           .product-slider .swiper-pagination-bullet { background: ${theme === "dark" ? "#fff" : "#000"}; opacity: 0.3; }
-
           .product-slider .swiper-pagination-bullet-active { background: #EAB308 !important; opacity: 1; }
-
           .modal-scroll::-webkit-scrollbar { display: none; }
-
           .modal-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-
         `}
       </style>
 
@@ -368,13 +299,9 @@ const Products = ({ theme, addToCart, toggleWishlist, wishlistItems }) => {
           autoplay={{ delay: 3500, disableOnInteraction: false }}
           coverflowEffect={{
             rotate: 15,
-
             stretch: 0,
-
             depth: 200,
-
             modifier: 1,
-
             slideShadows: false,
           }}
           pagination={{ clickable: true, dynamicBullets: true }}
@@ -543,7 +470,6 @@ const Products = ({ theme, addToCart, toggleWishlist, wishlistItems }) => {
                       <button
                         onClick={() => {
                           addToCart(quickViewProduct);
-
                           closeQuickView();
                         }}
                         className="w-full py-3.5 rounded-xl font-bold tracking-widest uppercase bg-[#EAB308] text-black transition-colors hover:bg-yellow-400"
@@ -565,7 +491,7 @@ const Products = ({ theme, addToCart, toggleWishlist, wishlistItems }) => {
                       </a>
 
                       <a
-                        href="https://www.amazon.in/gp/product/B0HPNWCSGX/ref=cx_skuctr_share_ls_srb?smid=A6TD6AL2B4H4R&tag=ShopReferral_26e4a7e8-34d7-4079-8e89-1d0633af50a6"
+                        href={quickViewProduct.amazonLink}
                         target="_blank"
                         rel="noreferrer"
                         className="w-full py-3.5 rounded-xl font-bold tracking-widest uppercase border border-gray-700 text-[#FF9900] text-center transition-all hover:border-[#FF9900] hover:bg-[#FF9900]/10"
@@ -578,7 +504,6 @@ const Products = ({ theme, addToCart, toggleWishlist, wishlistItems }) => {
               </div>
             )}
           </>,
-
           document.body,
         )}
     </div>
