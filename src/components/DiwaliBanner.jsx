@@ -1,74 +1,58 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const DiwaliBanner = ({ theme }) => {
+const DiwaliBanner = ({ theme, onOpenOfferModal, onOpenCustomModal }) => {
   return (
     <section
-      className={`px-4 py-8 md:py-12 ${theme === "dark" ? "bg-[#050505]" : "bg-gray-50"}`}
+      className={`relative py-12 md:py-16 overflow-hidden ${theme === "dark" ? "bg-[#050505]" : "bg-gray-50"}`}
     >
-      <div className="max-w-7xl mx-auto">
+      {/* Background glow effects */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-yellow-600/20 blur-[100px] pointer-events-none rounded-full" />
+
+      <div className="max-w-5xl mx-auto px-4 relative z-10 text-center">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
-          // Glowing border effect
-          className="relative overflow-hidden rounded-[2rem] p-[2px] bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 shadow-[0_0_30px_rgba(234,179,8,0.3)]"
+          className={`border border-yellow-500/30 rounded-3xl p-6 md:p-10 shadow-[0_0_30px_rgba(234,179,8,0.15)] ${theme === "dark" ? "bg-[#111]/80 backdrop-blur-md" : "bg-white/80 backdrop-blur-md"}`}
         >
-          {/* Inner content box */}
-          <div
-            className={`relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 px-6 py-10 md:px-12 md:py-12 rounded-[30px] ${theme === "dark" ? "bg-[#0a0a0a]" : "bg-white"} backdrop-blur-sm overflow-hidden`}
+          <h2
+            className={`text-3xl md:text-5xl font-serif font-bold mb-4 tracking-wide uppercase ${theme === "dark" ? "text-white" : "text-black"}`}
           >
-            {/* Background Glow Animation */}
-            <motion.div
-              animate={{ opacity: [0.1, 0.3, 0.1] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="absolute inset-0 bg-gradient-to-r from-yellow-500/10 via-transparent to-yellow-500/10 pointer-events-none"
-            />
+            Diwali Exclusive Offers ✨
+          </h2>
+          <p
+            className={`text-sm md:text-lg mb-8 tracking-widest uppercase font-bold ${theme === "dark" ? "text-yellow-500" : "text-yellow-600"}`}
+          >
+            Luxury Gifting • Limited Time Only
+          </p>
 
-            {/* Left Side: Text Content */}
-            <div className="text-center md:text-left z-20">
-              <motion.div
-                animate={{
-                  textShadow: [
-                    "0px 0px 5px rgba(234,179,8,0.4)",
-                    "0px 0px 15px rgba(234,179,8,0.8)",
-                    "0px 0px 5px rgba(234,179,8,0.4)",
-                  ],
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="inline-flex items-center gap-2 text-yellow-500 font-bold tracking-widest uppercase text-xs sm:text-sm mb-4"
-              >
-                <span>🪔</span> Shubh Diwali <span>🪔</span>
-              </motion.div>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
+            {/* Button 1: Buy 2 Get 1 Free */}
+            <button
+              onClick={onOpenOfferModal}
+              className="w-full md:w-auto px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase transition-all duration-300 bg-yellow-500 text-black hover:bg-yellow-400 hover:scale-105 shadow-[0_0_20px_rgba(234,179,8,0.3)] flex flex-col items-center"
+            >
+              <span>Get Diwali Special Offers</span>
+              <span className="text-[10px] opacity-80 mt-1">
+                Buy 2 Get 1 Free 🎁
+              </span>
+            </button>
 
-              <h2
-                className={`text-3xl sm:text-4xl md:text-5xl font-serif font-bold mb-4 leading-tight ${theme === "dark" ? "text-white" : "text-black"}`}
-              >
-                Celebrate this Diwali with <br className="hidden sm:block" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
-                  AFSAN Perfumes
-                </span>
-              </h2>
-
-              <p
-                className={`text-sm sm:text-base max-w-lg mx-auto md:mx-0 ${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}
-              >
-                Light up your festive season with our luxury attar gift sets.
-                The perfect gift for your loved ones. Get up to 40% Off today!
-              </p>
-            </div>
-
-            {/* Right Side: CTA Button */}
-            <div className="shrink-0 z-20">
-              <a href="#products" className="relative inline-flex group">
-                {/* Button Glow Effect */}
-                <div className="absolute transition-all duration-700 opacity-60 inset-0 bg-yellow-500 rounded-2xl blur-lg group-hover:opacity-100 group-hover:blur-xl"></div>
-                <button className="relative inline-flex items-center justify-center px-8 py-4 text-xs sm:text-sm font-bold text-black uppercase tracking-widest transition-all duration-200 bg-yellow-500 rounded-2xl hover:bg-yellow-400 shadow-xl">
-                  Shop Diwali Offers ✨
-                </button>
-              </a>
-            </div>
+            {/* Button 2: Customize Your Set (NAYA BUTTON) */}
+            <button
+              onClick={onOpenCustomModal}
+              className={`w-full md:w-auto px-8 py-4 rounded-full font-bold text-sm tracking-widest uppercase transition-all duration-300 border-2 flex flex-col items-center hover:scale-105 ${
+                theme === "dark"
+                  ? "border-yellow-500 text-yellow-500 hover:bg-yellow-500/10"
+                  : "border-yellow-600 text-yellow-600 hover:bg-yellow-600/10"
+              }`}
+            >
+              <span>Customize Your Box</span>
+              <span className="text-[10px] opacity-80 mt-1">
+                Pick 3 Attars + Samples ✨
+              </span>
+            </button>
           </div>
         </motion.div>
       </div>

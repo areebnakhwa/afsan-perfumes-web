@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-// NAYA IMPORT: Diwali Banner yahan add kiya hai
 import DiwaliBanner from "./components/DiwaliBanner";
 import FeaturedCategories from "./components/FeaturedCategories";
 import Products from "./components/Products";
@@ -10,12 +9,12 @@ import Footer from "./components/Footer";
 import CartDrawer from "./components/CartDrawer";
 import WishlistDrawer from "./components/WishlistDrawer";
 import PolicyModal from "./components/PolicyModal";
+import DiwaliOfferModal from "./components/DiwaliOfferModal";
+import CustomBoxModal from "./components/CustomBoxModal";
 
-// --- LOGIN AUR FIREBASE IMPORTS ADD KIYE GAYE HAIN ---
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import LoginModal from "./components/LoginModal";
-// -----------------------------------------------------
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -32,32 +31,40 @@ function App() {
 
   const [toast, setToast] = useState({ show: false, message: "", icon: "" });
 
-  // --- LOGIN AUR USER STATE ADD KI GAYI HAI ---
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [user, setUser] = useState(null);
 
-  // Firebase auth listener
+  const [isDiwaliModalOpen, setIsDiwaliModalOpen] = useState(false);
+  const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
     return () => unsubscribe();
   }, []);
-  // ---------------------------------------------
 
   const showToast = (message, icon) => {
     setToast({ show: true, message, icon });
     setTimeout(() => setToast({ show: false, message: "", icon: "" }), 3000);
   };
 
-  // FIXED GLOWING SCROLL EFFECT LOGIC
+  // 🔥 SUPER OPTIMIZED SCROLL LOGIC FOR 60FPS SMOOTHNESS 🔥
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const scrollHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollHeight > 0) {
-        setScrollProgress(scrollTop / scrollHeight);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollTop =
+            window.scrollY || document.documentElement.scrollTop;
+          const scrollHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
+          if (scrollHeight > 0) {
+            setScrollProgress(scrollTop / scrollHeight);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -121,7 +128,6 @@ function App() {
     <div
       className={`relative min-h-screen transition-colors duration-500 overflow-x-hidden ${theme === "dark" ? "bg-[#0a0a0a] text-white" : "bg-white text-gray-900"}`}
     >
-      {/* Toast Notification */}
       <div
         className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[300] px-6 py-3 rounded-full backdrop-blur-xl shadow-2xl transition-all duration-500 flex items-center gap-3 ${toast.show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"} ${theme === "dark" ? "bg-white/10 border border-white/20 text-white" : "bg-black/80 border border-black/20 text-white"}`}
       >
@@ -131,26 +137,24 @@ function App() {
         </span>
       </div>
 
-      {/* DYNAMIC SCROLLING GLOWING ORB */}
+      {/* 🔥 GPU ACCELERATED BACKGROUND ORB (No lag now) 🔥 */}
       <div
-        className="fixed left-1/2 w-[320px] md:w-[650px] h-[320px] md:h-[650px] rounded-full blur-[130px] pointer-events-none transition-all duration-300 ease-out z-0"
+        className="fixed top-0 left-1/2 w-[320px] md:w-[650px] h-[320px] md:h-[650px] rounded-full blur-[90px] md:blur-[120px] pointer-events-none transition-transform duration-75 ease-linear z-0 will-change-transform"
         style={{
-          top: `${scrollProgress * 100}%`,
-          transform: `translate(-50%, -50%) scale(${1 + scrollProgress * 0.4})`,
+          transform: `translate3d(-50%, calc(${scrollProgress * 100}vh - 50%), 0) scale(${1 + scrollProgress * 0.4})`,
           background:
             theme === "dark"
-              ? "radial-gradient(circle, rgba(234,179,8,0.18) 0%, rgba(0,0,0,0) 70%)"
-              : "radial-gradient(circle, rgba(234,179,8,0.22) 0%, rgba(255,255,255,0) 70%)",
+              ? "radial-gradient(circle, rgba(234,179,8,0.15) 0%, rgba(0,0,0,0) 70%)"
+              : "radial-gradient(circle, rgba(234,179,8,0.18) 0%, rgba(255,255,255,0) 70%)",
         }}
       />
 
-      {/* SCROLL PROGRESS TOP BAR */}
+      {/* 🔥 OPTIMIZED PROGRESS BAR 🔥 */}
       <div
-        className="fixed top-0 left-0 h-1 bg-yellow-500 z-50 shadow-[0_0_12px_#eab308]"
-        style={{ width: `${scrollProgress * 100}%` }}
+        className="fixed top-0 left-0 h-1 bg-yellow-500 z-50 shadow-[0_0_12px_#eab308] will-change-transform origin-left transition-transform duration-75 ease-linear"
+        style={{ transform: `scaleX(${scrollProgress})` }}
       />
 
-      {/* DIWALI PROMO BANNER (TOP BAR) */}
       <div className="relative z-40 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 text-black text-[10px] md:text-sm font-bold text-center py-2 px-4 tracking-wide shadow-md">
         ✨ Celebrate Diwali with AFSAN - The Perfect Luxury Gift Set ✨
       </div>
@@ -162,7 +166,6 @@ function App() {
         openCart={() => setIsCartOpen(true)}
         wishlistCount={wishlistItems.length}
         openWishlist={() => setIsWishlistOpen(true)}
-        // NAYA: Navbar ko user details aur modal kholne ka function pass kiya gaya hai
         user={user}
         openLogin={() => setIsLoginOpen(true)}
       />
@@ -170,21 +173,25 @@ function App() {
       <div className="relative z-10">
         <Hero theme={theme} addToCart={addToCart} />
 
-        {/* NAYA ADD KIYA HUA BANNER (Hero aur FeaturedCategories ke beech mein) */}
-        <DiwaliBanner theme={theme} />
+        <DiwaliBanner
+          theme={theme}
+          onOpenOfferModal={() => setIsDiwaliModalOpen(true)}
+          onOpenCustomModal={() => setIsCustomModalOpen(true)}
+        />
 
-        <FeaturedCategories theme={theme} />
         <Products
           theme={theme}
           addToCart={addToCart}
           toggleWishlist={toggleWishlist}
           wishlistItems={wishlistItems}
         />
+
+        <FeaturedCategories theme={theme} />
+
         <About theme={theme} />
         <Footer theme={theme} openPolicy={openPolicy} />
       </div>
 
-      {/* SLIDE DRAWERS & MODALS */}
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -212,12 +219,23 @@ function App() {
         theme={theme}
       />
 
-      {/* NAYA ADD KIYA HUA: LOGIN MODAL */}
       <LoginModal
         isOpen={isLoginOpen}
         onClose={() => setIsLoginOpen(false)}
         theme={theme}
         user={user}
+      />
+
+      <DiwaliOfferModal
+        isOpen={isDiwaliModalOpen}
+        onClose={() => setIsDiwaliModalOpen(false)}
+        theme={theme}
+      />
+
+      <CustomBoxModal
+        isOpen={isCustomModalOpen}
+        onClose={() => setIsCustomModalOpen(false)}
+        theme={theme}
       />
     </div>
   );
